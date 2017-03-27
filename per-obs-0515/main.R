@@ -68,27 +68,3 @@ dhs[is.element(S119A,2:4)|is.element(S119C,2:4),ethn_cat:="ethnic parents"]
 
 dhs[,.(year,age,educ=educl,wealth=wi,region=SREGION,ethn_cat,contracep=method)] %>%
   write.csv("final.csv",row.names=FALSE)
-
-# 2006 data
-  # CASEID: Variable para match en todas
-
-  # Variable de interes
-  # REC0111
-    #V131: Ethnicity (espannol vs lengua nativa)
-  # REC91
-    #S119A/C: quechua padre/madre
-    #S119B/D: quechua abuelos padre/madre
-
-  # Covariables
-  # REC0111
-    #V005: Sample weight
-    #V012: Age in years                     [Nivel 1:   MEF]
-    #V023/V024: Sample domain/Region        [Nivel 3: Contexto] -> Mapear a Costa/Sierra/Selva?
-    #V025: Type of residence (urban/rural)  [Nivel 3: Contexto]
-    #V106: Highest educational level        [Nivel 1:   MEF] NOOO, usa 109
-    #V107: Highest year of education        [Nivel 1:   MEF]
-    #V190: Wealth index                     [Nivel 2: Hogar]
-
-  # Desenlace
-  # REC31
-    #V313: uso de anticonceptivos por tipo

@@ -23,14 +23,16 @@
 # 2 - Etnicidad: habla quechua en casa (etniquisimo), habla spanish pero padres no (reciente desentinco), spanishparlante antiguo
 
 #Sintaxis para extraer ID de mujer de RECH5; Este paso hay que hacerlo cuando ya se tenga el dataset unido
-dhs$`2005-RECH5`[1:100,.(HHID,cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
-                                  hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))))]
-
 dhs$`2005-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                     hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                    hhline=HA0,bmi=HA40,pregnant=HA54)]
+                    hhline=HA0,bmi=HA40,qc_pregnant=HA54)]
 
-dhs$`2005-REC0111`[,.(cluster=V001,hhnumber=V002,hhline=V003,sampwgt=V005,V007)]
+#res_ vars: have to do with residence
+#qc_ vars: have to do with quality control (e.g. exclusions)
+dhs$`2005-REC0111`[,.(cluster=V001,hhnumber=V002,hhline=V003,sampwgt=V005,year=V007,
+                      age=V012,age5cat=V013,education=V149,region=V024,res_ur=V025,
+                      res_type=V026,res_child=V103,res_time=V104,res_prev=V105,ethnicity=V131,
+                      qc_visitor=V135,wealth=V190)]
 
 
 #########################################################################

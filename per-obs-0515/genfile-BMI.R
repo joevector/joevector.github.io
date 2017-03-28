@@ -1,5 +1,39 @@
-sourcedir <- "D:/Trabajo/Bases INEI/ENDES/"
 
+#DESENLACE
+#  BMI (RECH5 HA40)
+#MUJER
+#  Edad (REC0111 V012)
+#  Maximo nivel educativo alcanzado (REC0111 - V109)
+#  Etnicidad-1 (Solo con V131)
+#  Etnicidad-2 (REC0111 - V131 con REC91 y las 119 de REC91)
+#  Residente/migrante (residente de zona rural, de zona urbana, migrante rural a urbana)
+#HOGAR
+#  Wealth index (REC0111 )
+#CONTEXTO
+#  Region o Region natural (verificar en analisis exploratorio el numero de obs por celda)
+#  Anno
+
+#Interacciones: Region x Anno, Migrante x anno
+
+#Primera pregunta: como defino migrantes? 
+#Tomar aquellos que nacieron en la ruralidad Y vienen de la ruralidad pero ahora viven en urbano
+
+#Evaluemos dos definiciones:
+# 1 - Lugar de residencia: nativo urbano, nativo rural, migrante rural-urbano
+# 2 - Etnicidad: habla quechua en casa (etniquisimo), habla spanish pero padres no (reciente desentinco), spanishparlante antiguo
+
+#Sintaxis para extraer ID de mujer de RECH5; Este paso hay que hacerlo cuando ya se tenga el dataset unido
+dhs$`2005-RECH5`[1:100,.(HHID,cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
+                                  hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))))]
+
+dhs$`2005-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
+                    hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
+                    hhline=HA0,bmi=HA40,pregnant=HA54)]
+
+dhs$`2005-REC0111`[,.(cluster=V001,hhnumber=V002,hhline=V003,sampwgt=V005,V007)]
+
+
+#########################################################################
 library(rio)
 library(magrittr)
 library(lubridate)

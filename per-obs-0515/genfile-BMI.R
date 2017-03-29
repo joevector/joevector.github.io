@@ -23,24 +23,26 @@
 # 2 - Etnicidad: habla quechua en casa (etniquisimo), habla spanish pero padres no (reciente desentinco), spanishparlante antiguo
 
 #Sintaxis para extraer ID de mujer de RECH5; Este paso hay que hacerlo cuando ya se tenga el dataset unido
-dhs$`2005-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
-                    hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                    hhline=HA0,bmi=HA40,qc_pregnant=HA54)]
-
 #res_ vars: have to do with residence
 #qc_ vars: have to do with quality control (e.g. exclusions)
-dhs$`2005-REC0111`[,.(cluster=V001,hhnumber=V002,hhline=V003,sampwgt=V005,year=V007,
-                      age=V012,age5cat=V013,education=V149,region=V024,res_ur=V025,
-                      res_type=V026,res_child=V103,res_time=V104,res_prev=V105,ethnic_self=V131,
-                      qc_visitor=V135,wealth=V190)]
-
 #ethnic_ vars: have to do with the subject's ethnicity
 # > In particular, self is self-reported, dad/mom is that of parents and gpdad/gpmom is that of grandparents
-dhs$`2005-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
-                    hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
-                    hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                    natregion=SREGION,
-                    ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,ethnic_gpmom=S119D)]
+
+
+dhs$`2005-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
+                    hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
+                    hhline=as.numeric(HA0),bmi=HA40,qc_pregnant=HA54)] %>%
+
+merge(dhs$`2005-REC0111`[,.(cluster=V001,hhnumber=V002,hhline=V003,sampwgt=V005,year=V007,
+                            age=V012,age5cat=V013,education=V149,region=V024,res_ur=V025,
+                            res_type=V026,res_child=V103,res_time=V104,res_prev=V105,ethnic_self=V131,
+                            qc_visitor=V135,wealth=V190)], by=c("cluster","hhnumber","hhline"),all=TRUE) %>%
+
+merge(dhs$`2005-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
+                          hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
+                          hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
+                          natregion=SREGION,ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,
+                          ethnic_gpmom=S119D)], by=c("cluster","hhnumber","hhline"),all=TRUE)
 
 #########################################################################
 library(rio)

@@ -180,6 +180,12 @@ dhs$`2015-rech5`[,.(cluster=as.numeric(hhid %>% as.character %>% substr(1,nchar(
                             natregion=sregion,ethnic_dad=q119nb,ethnic_gpdad=NA,ethnic_mom=q119nb,
                             ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE))
 
+### Ethnicity categories
+
+final[ethnic_self==1&ethnic_dad==1&ethnic_mom==1,ethnic_cat:="old spanish"]
+final[ethnic_self==1&(is.element(ethnic_dad,2:4)|is.element(ethnic_mom,2:4)),ethnic_cat:="recent spanish"]
+final[is.element(ethnic_self,2:4),ethnic_cat:="indigenous"]
+
 #########################################################################
 library(rio)
 library(magrittr)

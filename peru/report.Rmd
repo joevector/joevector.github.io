@@ -8,6 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 datafdir  <- "C:/Users/bfazio/Desktop/analisis/modlineal/datafiles/"
+#sourcedir <- "C:/Users/bfazio/Desktop/analisis/modlineal/ENDES/"
+#scriptdir <- "C:/Users/bfazio/Desktop/analisis/modlineal/rscripts/"
 #ISO 8859-1 encoding
 ```
 

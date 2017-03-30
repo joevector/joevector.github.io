@@ -25,41 +25,40 @@ str(dhs) #Always good to take a look.
 
 ## Data cleaning and preparation
 
-For this analysis, the relationship of ethnicity and of place of residence with Body Mass Index (BMI) will be explored over the years 2005 to 2015. We first need to construct those variables from the available data.
+For this analysis, the relationship of ethnicity and of residence history with Body Mass Index (BMI) will be explored over the years 2005 to 2015. We first need to construct those variables from the available data.
 
 ### Ethnicity
 
-Following the operationalization proposed in (Valdivia 2007), we create three categories (**old spanish speakers**, **recent spanish speakers** and **indigenous language speakers**) based on the following questions asked in the Peru DHS:
+Following the operationalization proposed in (Valdivia 2007), we create three categories (old spanish speakers, recent spanish speakers and indigenous language speakers) based on the following questions asked in the Peru DHS:
 
 * `ethnic_self`: ¿Qué idioma o dialecto hablan habitualmente en su hogar? (*What language or dialect do you normally speak at home?*)
 * `ethnic_mom`: ¿Cuál es el idioma o lengua materna de su madre? (*What is your mother's mother tongue?*)
 * `ethnic_dad`: ¿Cuál es el idioma o lengua materna de su padre? (*What is your father's mother tongue?*)
 
-Valid answers are **spanish**, **quechua**, **aymara**, **other indigenous language** and **foreign language**.
+Valid answers are *spanish*, *quechua*, *aymara*, *other indigenous language* and *foreign language*.
 
-This set of questions was not asked during the 2009-2012 surveys, so we exclude those years from this analysis.
+This set of questions was not asked during before 2005 or in the 2009-2012 surveys, so we exclude those years from this analysis.
 
 ```{r}
-dhs_full <- dhs
-dhs <- dhs[!(year %>% is.element(2009:2012))]
-
 #1:spanish, 2:quechua, 3:aymara, 4:other indigenous, 5:foreign
 dhs[ethnic_self==1&ethnic_dad==1&ethnic_mom==1,ethnic_cat:="old spanish"]
 dhs[ethnic_self==1&(is.element(ethnic_dad,2:4)|is.element(ethnic_mom,2:4)),ethnic_cat:="recent spanish"]
-dhs[is.element(ethnic_self,2:4)&is.element(ethnic_dad,2:4)&is.element(ethnic_mom,2:4),ethnic_cat:="indigenous"]
+dhs[is.element(ethnic_self,2:4),ethnic_cat:="indigenous"]
 
-dhs %>% with(ethnic_cat %>% table(year))
-dhs %>% with(ethnic_self %>% is.na %>% table(year))
-dhs %>% with(ethnic_mom %>% is.na %>% table(year))
-dhs %>% with(ethnic_dad %>% is.na %>% table(year))
+dhs[!(year%>%is.element(c(2003,2004,2009:2012)))] %>% with(ethnic_cat %>% table(year))
 ```
 
-We notice a big drop in **indigenous** respondents from 2013 onwards.
+Notice we categorize respondents as `"indigenous"` without using their parent's data. From 2013 onwards, a question skip was introduced whenever the respondent says they use an indigenous language at home. This is not an issue because almost all indigenous language users had indigenous language-speaking parents. We can examine the 2005-2008 data to see this:
 
 ```{r}
-dhs[is.element(ethnic_self,2:4),ethnic_cat:="indigenous"]
-dhs$ethnic_cat %>% table(dhs$year,exclude = NULL)
+dhs[is.element(year,2005:2008)] %T>% with(table(ethnic_self,ethnic_mom) %>% print) %>% with(table(ethnic_self,ethnic_dad))
 ```
+
+### Residence history
+
+
+
+### Body Mass Index
 
 In this analysis, `bmi` is the dependent variable so we must exclude any cases without the measurement. Because we also want to evaluate trends over time and the relationship with ethnicity and history of migration,
 

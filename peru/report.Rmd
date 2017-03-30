@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-datafdir  <- "C:/Users/bfazio/Desktop/analisis/modlineal/datafiles/"
+datafdir  <- "/home/alulab/Escritorio/bmfazio/"
 #sourcedir <- "C:/Users/bfazio/Desktop/analisis/modlineal/ENDES/"
 #scriptdir <- "C:/Users/bfazio/Desktop/analisis/modlineal/rscripts/"
 #ISO 8859-1 encoding
@@ -104,17 +104,15 @@ Ehm... 2006??!??!?!
 
 ```{r}
 dhs$year %>% table
-#dhs[, c("res_ur","res_child","res_prev","ethnic_mom","ethnic_dad","ethnic_self") := NULL]
-#dhs <- dhs[is.na()]
 ```
 
-In this analysis, `bmi` is the dependent variable so we must exclude any cases without the measurement. Because we also want to evaluate trends over time and the relationship with ethnicity and history of migration,
+Finally, we remove variables that are no longer necessary.
 
 ```{r}
-dhs[!(is.na(bmi)|bmi==9999)]
+dhs[, c("cluster","hhnumber","hhline","qc_pregnant","qc_visitor","res_ur","res_child","res_prev","ethnic_mom","ethnic_dad","ethnic_self") := NULL]
 ```
 
-## Including Plots
+## Descriptive plots
 
 You can also embed plots, for example:
 

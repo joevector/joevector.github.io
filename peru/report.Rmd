@@ -77,6 +77,35 @@ dhs %>% with(residence_cat %>% table(year))
 
 ### Data cleaning
 
+We perform the following exclusions from our dataset:
+
+* Respondents that don't identify as residents of the household
+* Respondents that report being pregnant at the time of the survey
+* Respondents that fail to be described by any of the variables constructed above
+
+```{r}
+dhs <- dhs[qc_pregnant==0&qc_visitor==1&
+             !(is.na(ethnic_cat)&is.na(residence_cat))]
+```
+
+Because `bmi` is the dependent variable, we must exclude any cases without the measurement but we also need to check that doing so may inadvertently bias our data.
+
+```{r}
+#Take a look at proportion of missing data 
+dhs %T>%
+  with(table(year,isNA=is.na(bmi)) %>% prop.table(margin=1) %>% '*'(100) %>% round(2) %>% print) %T>%
+  with(table(ethnic_cat,isNA=is.na(bmi)) %>% prop.table(margin=1) %>% '*'(100) %>% round(2) %>% print) %>%
+  with(table(residence_cat,isNA=is.na(bmi)) %>% prop.table(margin=1) %>% '*'(100) %>% round(2) %>% print)
+```
+
+Ehm... 2006??!??!?!
+
+```{r}
+dhs$year %>% table
+#dhs[, c("res_ur","res_child","res_prev","ethnic_mom","ethnic_dad","ethnic_self") := NULL]
+#dhs <- dhs[is.na()]
+```
+
 In this analysis, `bmi` is the dependent variable so we must exclude any cases without the measurement. Because we also want to evaluate trends over time and the relationship with ethnicity and history of migration,
 
 ```{r}

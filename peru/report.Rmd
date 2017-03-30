@@ -1,0 +1,78 @@
+---
+title: "Peru DHS - BMI trend analysis"
+author: "Boris M Fazio"
+date: "2017-03-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+datafdir  <- "C:/Users/bfazio/Desktop/analisis/modlineal/datafiles/"
+#ISO 8859-1 encoding
+```
+
+## Raw data
+
+Load libraries and the aggregated raw data. If you haven't generated the latter, first do so using [this function](https://github.com/bmfazio/dhs-analysis/blob/master/peru/genfile-BMI.R).
+
+```{r warning=FALSE}
+library(magrittr)
+library(data.table)
+
+dhs <- fread(datafdir %>% paste0("rawdata.csv"))
+str(dhs) #Always good to take a look.
+```
+
+## Data cleaning and preparation
+
+For this analysis, the relationship of ethnicity and of place of residence with Body Mass Index (BMI) will be explored over the years 2005 to 2015. We first need to construct those variables from the available data.
+
+### Ethnicity
+
+Following the operationalization proposed in (Valdivia 2007), we create three categories (**old spanish speakers**, **recent spanish speakers** and **indigenous language speakers**) based on the following questions asked in the Peru DHS:
+
+* `ethnic_self`: ¿Qué idioma o dialecto hablan habitualmente en su hogar? (*What language or dialect do you normally speak at home?*)
+* `ethnic_mom`: ¿Cuál es el idioma o lengua materna de su madre? (*What is your mother's mother tongue?*)
+* `ethnic_dad`: ¿Cuál es el idioma o lengua materna de su padre? (*What is your father's mother tongue?*)
+
+Valid answers are **spanish**, **quechua**, **aymara**, **other indigenous language** and **foreign language**.
+
+This set of questions was not asked during the 2009-2012 surveys, so we exclude those years from this analysis.
+
+```{r}
+dhs_full <- dhs
+dhs <- dhs[!(year %>% is.element(2009:2012))]
+
+#1:spanish, 2:quechua, 3:aymara, 4:other indigenous, 5:foreign
+dhs[ethnic_self==1&ethnic_dad==1&ethnic_mom==1,ethnic_cat:="old spanish"]
+dhs[ethnic_self==1&(is.element(ethnic_dad,2:4)|is.element(ethnic_mom,2:4)),ethnic_cat:="recent spanish"]
+dhs[is.element(ethnic_self,2:4)&is.element(ethnic_dad,2:4)&is.element(ethnic_mom,2:4),ethnic_cat:="indigenous"]
+
+dhs %>% with(ethnic_cat %>% table(year))
+dhs %>% with(ethnic_self %>% is.na %>% table(year))
+dhs %>% with(ethnic_mom %>% is.na %>% table(year))
+dhs %>% with(ethnic_dad %>% is.na %>% table(year))
+```
+
+We notice a big drop in **indigenous** respondents from 2013 onwards.
+
+```{r}
+dhs[is.element(ethnic_self,2:4),ethnic_cat:="indigenous"]
+dhs$ethnic_cat %>% table(dhs$year,exclude = NULL)
+```
+
+In this analysis, `bmi` is the dependent variable so we must exclude any cases without the measurement. Because we also want to evaluate trends over time and the relationship with ethnicity and history of migration,
+
+```{r}
+dhs[!(is.na(bmi)|bmi==9999)]
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

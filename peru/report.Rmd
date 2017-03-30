@@ -27,7 +27,9 @@ str(dhs) #Always good to take a look.
 
 For this analysis, the relationship of ethnicity and of residence history with Body Mass Index (BMI) will be explored over the years 2005 to 2015. We first need to construct those variables from the available data.
 
-### Ethnicity
+### Variable construction
+
+#### Ethnicity
 
 Following the operationalization proposed in (Valdivia 2007), we create three categories (old spanish speakers, recent spanish speakers and indigenous language speakers) based on the following questions asked in the Peru DHS:
 
@@ -40,7 +42,9 @@ Valid answers are *spanish*, *quechua*, *aymara*, *other indigenous language* an
 This set of questions was not asked during before 2005 or in the 2009-2012 surveys, so we exclude those years from this analysis.
 
 ```{r}
+#ethnic_self, ethnic_dad, ethnic_mom
 #1:spanish, 2:quechua, 3:aymara, 4:other indigenous, 5:foreign
+
 dhs[ethnic_self==1&ethnic_dad==1&ethnic_mom==1,ethnic_cat:="old spanish"]
 dhs[ethnic_self==1&(is.element(ethnic_dad,2:4)|is.element(ethnic_mom,2:4)),ethnic_cat:="recent spanish"]
 dhs[is.element(ethnic_self,2:4),ethnic_cat:="indigenous"]
@@ -54,11 +58,24 @@ Notice we categorize respondents as `"indigenous"` without using their parent's 
 dhs[is.element(year,2005:2008)] %T>% with(table(ethnic_self,ethnic_mom) %>% print) %>% with(table(ethnic_self,ethnic_dad))
 ```
 
-### Residence history
+#### Residence history
 
+This variable will have three categories based on the respondent's current place of residence, their previous place of residence (if any) and their childhood place of residence: lifetime urban dweller, lifetime rural dweller and rural-to-urban migrant.
 
+```{r}
+#res_ur
+#1:urban, 2:rural
+#res_child, res_prev
+#0:capital/large city, 1:city, 2:town, 3:countryside, 4:abroad
 
-### Body Mass Index
+dhs[res_ur==1&is.element(res_child,0:2)&(is.element(res_prev,0:2)|is.na(res_prev)),residence_cat:="urban"]
+dhs[res_ur==2&res_child==3&(res_prev==3|is.na(res_prev)),residence_cat:="rural"]
+dhs[res_ur==1&res_child==3&(res_prev==3|!is.na(res_prev)),residence_cat:="migrant"]
+
+dhs %>% with(residence_cat %>% table(year))
+```
+
+### Data cleaning
 
 In this analysis, `bmi` is the dependent variable so we must exclude any cases without the measurement. Because we also want to evaluate trends over time and the relationship with ethnicity and history of migration,
 

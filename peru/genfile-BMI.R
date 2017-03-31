@@ -171,6 +171,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
                                       hhnumber=as.numeric(caseid %>% as.character %>% substr(nchar(.)-7,nchar(.)-3)),
                                       hhline=as.numeric(caseid %>% as.character %>% substr(nchar(.)-2,nchar(.))),
                                       natregion=sregion,ethnic_dad=q119nb,ethnic_gpdad=NA,ethnic_mom=q119nb,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE)) %>% return
+                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE)) -> dhs
+    dhs[!duplicated(dhs)] %>% return
   }
 }

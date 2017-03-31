@@ -32,8 +32,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2005-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,
-                                      ethnic_gpmom=S119D)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=S119A,ethnic_mom=S119C)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2006-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -45,8 +44,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2006-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,
-                                      ethnic_gpmom=S119D)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=S119A,ethnic_mom=S119C)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2007-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -58,8 +56,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2007-REC91A`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                        hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                        hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                       natregion=SREGION,ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,
-                                       ethnic_gpmom=S119D)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                       natregion=SREGION,ethnic_dad=S119A,ethnic_mom=S119C)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2008-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -71,8 +68,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2008-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=S119A,ethnic_gpdad=S119B,ethnic_mom=S119C,
-                                      ethnic_gpmom=S119D)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=S119A,ethnic_mom=S119C)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2009-rech5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -84,8 +80,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2009-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=NA,ethnic_gpdad=NA,ethnic_mom=NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=NA,ethnic_mom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2010-RECH5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -97,8 +92,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2010-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=NA,ethnic_gpdad=NA,ethnic_mom=NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=NA,ethnic_mom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2011-rech5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-3)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
@@ -110,8 +104,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2011-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-6)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-5,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=NA,ethnic_gpdad=NA,ethnic_mom=NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=NA,ethnic_mom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2012-rech5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-5)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-4,nchar(.))),
@@ -125,8 +118,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2012-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-8)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-7,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-1,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=NA,ethnic_gpdad=NA,ethnic_mom=NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=NA,ethnic_mom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2013-rech5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-5)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-4,nchar(.))),
@@ -140,8 +132,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2013-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-8)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-7,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=Q119NB,ethnic_gpdad=NA,ethnic_mom=Q119NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=Q119NB,ethnic_mom=Q119NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2014-rech5`[,.(cluster=as.numeric(HHID %>% as.character %>% substr(1,nchar(.)-5)),
                               hhnumber=as.numeric(HHID %>% as.character %>% substr(nchar(.)-4,nchar(.))),
@@ -155,8 +146,7 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2014-REC91`[,.(cluster=as.numeric(CASEID %>% as.character %>% substr(1,nchar(.)-8)),
                                       hhnumber=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-7,nchar(.)-3)),
                                       hhline=as.numeric(CASEID %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=SREGION,ethnic_dad=Q119NB,ethnic_gpdad=NA,ethnic_mom=Q119NA,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
+                                      natregion=SREGION,ethnic_dad=Q119NB,ethnic_mom=Q119NA)], by=c("cluster","hhnumber","hhline"),all=TRUE),
           
           dhs$`2015-rech5`[,.(cluster=as.numeric(hhid %>% as.character %>% substr(1,nchar(.)-5)),
                               hhnumber=as.numeric(hhid %>% as.character %>% substr(nchar(.)-4,nchar(.))),
@@ -170,8 +160,8 @@ loadDHS <- function(workdir, countfiles=TRUE){
             merge(dhs$`2015-rec91`[,.(cluster=as.numeric(caseid %>% as.character %>% substr(1,nchar(.)-8)),
                                       hhnumber=as.numeric(caseid %>% as.character %>% substr(nchar(.)-7,nchar(.)-3)),
                                       hhline=as.numeric(caseid %>% as.character %>% substr(nchar(.)-2,nchar(.))),
-                                      natregion=sregion,ethnic_dad=q119nb,ethnic_gpdad=NA,ethnic_mom=q119nb,
-                                      ethnic_gpmom=NA)], by=c("cluster","hhnumber","hhline"),all=TRUE)) -> dhs
+                                      natregion=sregion,ethnic_dad=q119nb,ethnic_mom=q119nb)], by=c("cluster","hhnumber","hhline"),all=TRUE)) -> dhs
+    
     dhs[!duplicated(dhs)] %>% return
   }
 }

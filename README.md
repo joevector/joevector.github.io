@@ -1,2 +1,2 @@
-# dhs-analysis
-Assorted code used in analyzing Demographic and Health Survey (DHS) data
+# My personal website
+Mine! Well, thanks to Github anyway. <3

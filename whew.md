@@ -8,4 +8,4 @@
 |[Washington University - GHealth](https://globalhealth.washington.edu/education-training/phd-gh)|December|$85|PGarcia|
 |[Yale University - Statistics](http://statistics.yale.edu/academics/phd-program)|January|$105|??? (many alumni in private sector tho)|
 |[University of Chicago - Statistics](https://galton.uchicago.edu/admissions/faqs.shtml#ApplicationFee)|January|$90|??? (top 20)|
-|[UPenn - Statistics](https://statistics.wharton.upenn.edu/programs/phd/)|December|$80|??? (top 20)|
+|[UPenn - Statistics](https://statistics.wharton.upenn.edu/programs/phd/)|December|$80|??? (top 20, [tmb hay biostats](http://www.med.upenn.edu/ggeb/BiostatisticsCurrentStudents.shtml))|

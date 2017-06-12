@@ -1,0 +1,148 @@
+---
+title: "Introduccion a R"
+author: "Boris Fazio"
+date: "Junio 11, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(results='hold')
+```
+
+## Herramientas necesarias
+
+Para poder seguir este tutorial, primero necesitas una instalacion de **R** en tu computadora:
+
+* [Descarga para Windows](https://cran.r-project.org/bin/windows/base/)
+* [Descargas para otros sistemas](https://cran.r-project.org/banner.shtml)
+
+Este documento se ha generado en ``r version$version.string``, pero no deberia haber ningun problema de compatibilidad con versiones cercanas.
+
+Ademas, recomiendo fuertemente que trabajen usando **RStudio**. Esta herramienta provee una interfaz grafica amigable con colores para visualizar mejor partes diferentes del codigo y funciones como deshacer (Ctrl+Z), busqueda de texto (Ctrl+F) y autocompletado de nombres de variables.
+
+* [Descargas (ver version FREE)](https://www.rstudio.com/products/rstudio/download2/)
+
+![**Interfaz tipica de RStudio** Consiste de cuatro paneles, en sentido horario desde izquierda superior: el primero actua como un editor de texto simple, para escribir programas que se quieran guardar; el siguiente muestra las variables actualmente almacenadas y el historial de comandos; el otro contiene una consola interactiva que permite visualizar los resultados del codigo que se corre e ingresar comandos sueltos y el ultimo muestra los archivos en el directorio de trabajo, documentacion de ayuda y los graficos que nuestros programas generen.](screenshotRStudio.png)
+
+## Estructuras de datos y funciones basicas
+
+En esta seccion comenzaremos a ver codigo. Este se presentara en cajas como la siguiente:
+
+```{r}
+# Las lineas que inician con '#'
+# son comentarios
+
+2 + 2
+
+print("Hola")
+
+# Al final de la caja apareceran
+# los resultados de los comandos
+```
+
+### Vectores
+
+En **R**, la estructura mas simple que se usa para representar un dato es el **vector**. El vector mas comun contiene numeros, pero veremos a continuacion que tambien pueden llevar texto como elementos. Hay varias formas de generar un vector:
+
+* El operador `a:b` genera un vector con valores desde `a` hasta `b`, en incrementos de `1`.
+
+```{r}
+# Generar numeros del 1 al 5
+1:5
+```
+
+* La funcion `seq(a,b,x)` genera un vector con valores desde `a` hasta `b` en incrementos de `x`.
+
+```{r}
+# Generar numeros del 1 al 10
+# en incrementos de 3
+seq(1,10,3)
+```
+
+* La funcion `rep(a,x)` genera un vector con el valor `a` repetido `x` veces.
+
+```{r}
+# Repetir el numero 1, 4 veces
+rep(1,4)
+
+# Repetir el vector 1:3, 2 veces
+rep(1:3,2)
+
+# Repetir "hola", 3 veces
+rep("hola",3)
+```
+
+* La funcion `c(a,b,c,...)` es la forma mas general de generar un vector, especificando cada entrada.
+
+```{r}
+# Crear un vector con numeros
+# del 1 al 4 y el 6
+c(1:4,6)
+
+# Crear un vector con 0 y el
+# vector (1, 3) repetido
+# 2 veces
+c(0,rep(c(1,3),2))
+```
+
+Es util notar que las funciones de **R**, en general, pueden tomar vectores como argumento. Esto incluye las salidas de otras funciones, como puede verse en el ultimo ejemplo.
+
+**Atencion:** Todas las entradas de un vector deben ser datos del mismo tipo. Si no lo son, **R** hara la conversion automaticamente y esto puede tener resultados inesperados. Observa las diferencias entre los dos vectores a continuacion:
+
+```{r}
+# Los valores logicos se
+# transforman a numero
+c(-1,FALSE,TRUE,2)
+
+# Los valores logicos y numericos
+# se transforman a texto
+c("texto",FALSE,TRUE,2)
+```
+
+### Asignacion y seleccion de valores
+
+Usualmente deseamos que los resultados que obtenemos queden almacenado para su uso posterior. Los operadores `<-` y `=` nos permiten asignar el valor del resultado en la mano derecho a una variable nombrada en la mano izquierda.
+
+```{r}
+a <- 1
+a <- a + 2
+
+a
+```
+
+Por defecto, **R** incluye algunas variables ya definidas. Por ejemplo, `letters` contiene las letras del abecedario en minusculas.
+
+Veamos como extraer solo algunos elementos de un vector usando la notacion `vector[indice]`:
+
+```{r}
+
+letters[1:3]
+
+
+a <- 5:7
+letters[c(2,a,2)]
+
+letters
+```
+
+Otra manera de extraer valores es ingresando un vector de valores logicos que indican los elementos que desean recuperarse.
+
+```{r}
+a <- c(1:8)
+
+a>4
+a[a>4]
+```
+
+Podemos combinar multiples condiciones usando los operadores logicos `&` (AND) y `|` (OR). Por ejemplo, usemos 
+
+### Data frames
+
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

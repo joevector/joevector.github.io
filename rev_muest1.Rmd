@@ -1,0 +1,33 @@
+---
+title: "Revision de Muestreo - Parte 1"
+author: "Boris Fazio"
+date: "14 de junio de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Nociones generales de muestreo
+
+### Definicion de muestreo
+
+Hablar acerca de muestreo tiene sentido en un contexto en el que:
+
+* Podemos identificar un conjunto bien definido de entidades, una **poblacion**
+
+* Nos interesa conocer el comportamiento poblacional de alguna caracteristica de dichas entidades, un **parametro**
+
+Entonces, **muestreo** describe un proceso por el cual se procede con la seleccion de un subconjunto de entidades de la poblacion de forma tal que la probabilidad de obtener cualquier coleccion especifica de observaciones sea conocida.
+
+### Inferencia estadistica
+
+Dado que el proceso de generacion de muestras tiene propiedades probabilisticas conocidas, podemos anticipar la relacion entre las medidas que tomemos de una muestra y el valor de algun parametro en la poblacion de origen. Se llama **estadistico** a cualquier funcion de las variables en una muestra, pero si usamos un estadistico como aproximacion al valor de un parametro, entonces tambien se le llama **estimador**.
+
+Para cuantificar la calidad de informacion que esperamos obtener con algun estimador dado, calculamos sus propiedades estadisticas. Las propiedades que se evaluan con mayor frecuencia son **sesgo**, **varianza** y **error cuadratico medio**.
+
+Una vez realizado un muestreo y elegido un estimador, el valor concreto que se calcula se denomina **estimacion puntual**. Dado que la varianza del estimador es una cantidad que tambien se puede estimar, podemos tomar esta informacion para generar una **estimacion por intervalo**, la cual provee una nocion de nuestra certeza acerca del valor real del parametro.
+
+```{r}
+```

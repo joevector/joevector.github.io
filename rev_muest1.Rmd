@@ -71,23 +71,119 @@ Las propiedades estadisticas de estos estimadores dependen del procedimiento pre
     * $\text{E}(S^2) = \sigma^2$
 
 **Implementacion en R**
-
+```{r, include=FALSE}
+library(survey)
+```
 ```{r}
+## Seleccion de la muestra
+
 set.seed(321)
 
 # Informacion requerida:
-  # Poblacion
+    # Poblacion
 P <- data.frame(id=1:15,y=rpois(15,10))
-  # Tamano de muestra
+    # Tamano de muestra
 n <- 8
 
 # Seleccion de muestra:
 muestra <- P[sample(nrow(P), size=n, replace=TRUE),]
+y <- muestra$y
 
-# Estimacion de la
+## Calculo de los estimadores
+yb<-0;ve<-0;ybvar<-0
+
+# Con funciones de R base:
+    # Media
+yb[1] <- sum(y)/n
+yb[2] <- mean(y)
+    # Varianza de y
+ve[1] <- sum((yb[1]-y)**2)/(n-1)
+ve[2] <- var(y)
+    # Varianza de la media de y
+ybvar[1] <- ve[1]/n
+
+# Con paquete survey:
+library(survey)
+
+  # Definir esquema de muestreo
+muestra_svy <- svydesign(~1, data=muestra)
+    # Media (incluye calculo de su varianza)
+yb_svy <- svymean(y,muestra_svy)
+    # Varianza de y
+ve_svy <- svyvar(y,muestra_svy)
+
+yb[3]<-yb_svy;ve[3]<-ve_svy
+ybvar[2]<-attr(yb_svy, which = "var")
+
+# Verificamos equivalencia de los metodos
+yb;ve;ybvar
 ```
 
 ### MAS sin reemplazo (MASs)
 
+**Pasos a seguir:**
+
+1. Asignar probabilidad de seleccion $1/N$ a todo $e \in \mathcal{P}$.
+
+2. Elegir un $e$ al azar y agregarlo a la muestra
+
+3. Repetir 2 hasta que la muestra tenga el tamano $n$ deseado
+
+**Propiedades de los estimadores:**
+
+* Media
+    * $\text{E}(\bar Y) = \mu$
+    
+    * $\text{V}(\bar Y) =  \sigma^2 / n$
+    
+* Varianza
+    * $\text{E}(S^2) = \sigma^2$
+
+**Implementacion en R**
+```{r, include=FALSE}
+library(survey)
+```
 ```{r}
+## Seleccion de la muestra
+
+set.seed(321)
+
+# Informacion requerida:
+    # Poblacion
+P <- data.frame(id=1:15,y=rpois(15,10))
+    # Tamano de muestra
+n <- 8
+
+# Seleccion de muestra:
+muestra <- P[sample(nrow(P), size=n, replace=TRUE),]
+y <- muestra$y
+
+## Calculo de los estimadores
+yb<-0;ve<-0;ybvar<-0
+
+# Con funciones de R base:
+    # Media
+yb[1] <- sum(y)/n
+yb[2] <- mean(y)
+    # Varianza de y
+ve[1] <- sum((yb[1]-y)**2)/(n-1)
+ve[2] <- var(y)
+    # Varianza de la media de y
+ybvar[1] <- ve[1]/n
+
+# Con paquete survey:
+library(survey)
+
+  # Definir esquema de muestreo
+muestra_svy <- svydesign(~1, data=muestra)
+    # Media (incluye calculo de su varianza)
+yb_svy <- svymean(y,muestra_svy)
+    # Varianza de y
+ve_svy <- svyvar(y,muestra_svy)
+
+yb[3]<-yb_svy;ve[3]<-ve_svy
+ybvar[2]<-attr(yb_svy, which = "var")
+
+# Verificamos equivalencia de los metodos
+yb;ve;ybvar
 ```

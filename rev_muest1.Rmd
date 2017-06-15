@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Definicion de muestreo
 
-Hablar acerca de muestreo tiene sentido en un contexto en el que:
+Para hablar de muestreo requerimos identificar, como minimo, un contexto en el que:
 
 * Podemos identificar un conjunto bien definido de entidades, una **poblacion**
 
@@ -21,13 +21,73 @@ Hablar acerca de muestreo tiene sentido en un contexto en el que:
 
 Entonces, **muestreo** describe un proceso por el cual se procede con la seleccion de un subconjunto de entidades de la poblacion de forma tal que la probabilidad de obtener cualquier coleccion especifica de observaciones sea conocida.
 
+Si existe informacion adicional a la arriba mencionada, estaremos en condicion de usar tecnicas de muestreo mas sofisticadas. Entonces, la clave para hacer un buen muestreo es reconocer los datos que conocemos al inicio del problema, las tecnicas aplicables en ese contexto y las propiedades de cada una a fin de tomar una decision optima.
+
 ### Inferencia estadistica
 
 Dado que el proceso de generacion de muestras tiene propiedades probabilisticas conocidas, podemos anticipar la relacion entre las medidas que tomemos de una muestra y el valor de algun parametro en la poblacion de origen. Se llama **estadistico** a cualquier funcion de las variables en una muestra, pero si usamos un estadistico como aproximacion al valor de un parametro, entonces tambien se le llama **estimador**.
 
-Para cuantificar la calidad de informacion que esperamos obtener con algun estimador dado, calculamos sus propiedades estadisticas. Las propiedades que se evaluan con mayor frecuencia son **sesgo**, **varianza** y **error cuadratico medio**.
+Para cuantificar la calidad de informacion que esperamos obtener con algun estimador dado, calculamos sus propiedades estadisticas. Las propiedades que se evaluan con mayor frecuencia son **sesgo** y **varianza**.
 
-Una vez realizado un muestreo y elegido un estimador, el valor concreto que se calcula se denomina **estimacion puntual**. Dado que la varianza del estimador es una cantidad que tambien se puede estimar, podemos tomar esta informacion para generar una **estimacion por intervalo**, la cual provee una nocion de nuestra certeza acerca del valor real del parametro.
+Una vez realizado un muestreo y elegido un estimador, el valor concreto que se calcula se denomina **estimacion puntual**. Dado que la varianza del estimador es una cantidad que tambien se puede estimar, podemos tomar esta informacion para generar una **estimacion por intervalo**, lo que provee una nocion de nuestra certeza acerca del valor real del parametro.
+
+## Muestreo Aleatorio Simple (MAS)
+
+Este es el metodo de muestreo mas basico y asigna la misma probabilidad de seleccion a todas las muestras posibles.
+
+**Informacion requerida:**
+
+* Listado completo de los elementos de la poblacion
+    * $\mathcal{P} = \{e_1, ..., e_N\}$
+
+**Estimadores comunes:**
+
+* Media poblacional
+    * $\hat\mu = \bar Y = \frac{1}{n}\sum_{i=1}^n Y_i$
+    
+* Varianza poblacional
+    * $\hat\sigma^2 = S^2 = \frac{1}{n-1}\sum_{i=1}^n (\bar Y - Y_i)^2$
+
+Las propiedades estadisticas de estos estimadores dependen del procedimiento preciso que se use para generar la muestra. A continuacion, las dos posibilidades que existen.
+
+### MAS con reemplazo (MASc)
+
+**Pasos a seguir:**
+
+1. Asignar probabilidad de seleccion $1/N$ a todo $e \in \mathcal{P}$.
+
+2. Elegir un $e$ al azar y agregarlo a la muestra
+
+3. Repetir 2 hasta que la muestra tenga el tamano $n$ deseado
+
+**Propiedades de los estimadores:**
+
+* Media
+    * $\text{E}(\bar Y) = \mu$
+    
+    * $\text{V}(\bar Y) =  \sigma^2 / n$
+    
+* Varianza
+    * $\text{E}(S^2) = \sigma^2$
+
+**Implementacion en R**
+
+```{r}
+set.seed(321)
+
+# Informacion requerida:
+  # Poblacion
+P <- data.frame(id=1:15,y=rpois(15,10))
+  # Tamano de muestra
+n <- 8
+
+# Seleccion de muestra:
+muestra <- P[sample(nrow(P), size=n, replace=TRUE),]
+
+# Estimacion de la
+```
+
+### MAS sin reemplazo (MASs)
 
 ```{r}
 ```

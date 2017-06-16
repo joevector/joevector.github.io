@@ -134,10 +134,10 @@ yb;ve;ybvar
 * Media
     * $\text{E}(\bar Y) = \mu$
     
-    * $\text{V}(\bar Y) =  \sigma^2 / n$
+    * $\text{V}(\bar Y) =  \left(1-\frac{n}{N}\right)\sigma_{N-1}^2/n$
     
 * Varianza
-    * $\text{E}(S^2) = \sigma^2$
+    * $\text{E}(S^2) = \sigma_{N-1}^2$
 
 **Implementacion en R**
 ```{r, include=FALSE}
@@ -149,41 +149,93 @@ library(survey)
 set.seed(321)
 
 # Informacion requerida:
-    # Poblacion
+    # Poblacion y su tamano
 P <- data.frame(id=1:15,y=rpois(15,10))
+N <- nrow(P)
     # Tamano de muestra
 n <- 8
 
 # Seleccion de muestra:
-muestra <- P[sample(nrow(P), size=n, replace=TRUE),]
+muestra <- cbind(P[sample(nrow(P), size=n),],
+                 fpc=n/N)
 y <- muestra$y
 
 ## Calculo de los estimadores
-yb<-0;ve<-0;ybvar<-0
 
 # Con funciones de R base:
     # Media
-yb[1] <- sum(y)/n
-yb[2] <- mean(y)
+yb <- mean(y)
     # Varianza de y
-ve[1] <- sum((yb[1]-y)**2)/(n-1)
-ve[2] <- var(y)
+ve <- var(y)
     # Varianza de la media de y
-ybvar[1] <- ve[1]/n
+ybvar <- (1-n/N)*ve/n
 
 # Con paquete survey:
 library(survey)
 
   # Definir esquema de muestreo
-muestra_svy <- svydesign(~1, data=muestra)
+muestra_svy <- svydesign(~1, data=muestra, fpc=~fpc)
     # Media (incluye calculo de su varianza)
 yb_svy <- svymean(y,muestra_svy)
     # Varianza de y
 ve_svy <- svyvar(y,muestra_svy)
 
-yb[3]<-yb_svy;ve[3]<-ve_svy
-ybvar[2]<-attr(yb_svy, which = "var")
-
 # Verificamos equivalencia de los metodos
-yb;ve;ybvar
+c(yb,yb_svy);c(ve,ve_svy);c(ybvar,attr(yb_svy, which = "var"))
 ```
+
+### Ejemplos desarrollados
+
+#### Teoria: Ejercicio 2.2
+
+Juan, Pepe, Rosa, Luis, y Maria participan en un sorteo donde se repartiran al azar entre ellos 4 vales de 50 soles cada uno.
+
+a) Si Juan desea ganar algun vale ¿que es lo que mas le convendria: que la seleccion se haga con o sin reemplazamiento?
+
+---
+
+**Interpretacion del enunciado:**
+
+* *se repartiran al azar entre ellos 4 vales*
+    * Describe un proceso equivalente a realizar un MAS con $n=4$ en una poblacion de $N=5$
+
+* *Si Juan desea ganar algun vale*
+    * $P(\text{Juan} \in \mathcal{M}) = P(\text{J})$
+
+* *¿que es lo que mas le convendria?*
+    * Calcular y comparar: $P_{\text{MASc}}(\text{J})$, $P_{\text{MASs}}(\text{J})$
+
+**Resolucion:**
+
+Por definicion, a cada elemento de la muestra, $\mathcal{M}=\{e'_1,...,e'_N\}$, corresponde un $e_j \in \mathcal{P}$ tal que $e'_i = e_j$ para algun $i$.
+
+La probabilidad de que algun elemento particular salga elegido esta dada por
+
+$$P(e_j \in \mathcal{M}) = P(e_j = e'_1 \cup ... \cup e_j = e'_n)$$
+En el caso **MASc**, la probabilidad de seleccion de un elemento no varia entre pasos sucesivos de inclusion a la muestra, es decir que son independientes. Entonces tenemos
+
+$$P_{\text{MASc}}(e_j \in \mathcal{M}) =1 - P(e_j \notin \mathcal{M}) = 1 - P(e_j \neq e'_1 \cap ... \cap e_j \neq e'_n) = 1 - P(e_j \neq e'_1)\times ... \times P(e_j \neq e'_n) = 1 - \left(\frac{N-1}{N}\right)^n$$
+
+Para el caso **MASs**, ser seleccionado en algun paso es un evento excluyente para futuros pasos, entonces
+
+$$P_{\text{MASs}}(e_j \in \mathcal{M}) =P(e_j = e'_1 \cup ... \cup e_j = e'_n) = P(e_j = e'_1) + ... + P(e_j = e'_n) = \sum_{i=0}^{n-1} \frac{1}{N-i}$$
+
+
+---
+
+b) Si la seleccion se hace con reemplazamiento ¿que probabilidad hay de que Juan gane un vale y Rosa 2? ¿Es esta probabilidad la misma a que Juan gane los cuatro vales?
+
+## Muestreo Aleatorio Estratificado (MAE)
+
+Si dividimos la poblacion segun algun criterio tal que la variable de interes tenga valores similares al interior de cada subgrupo pero notoriamente diferentes entre grupos, hemos formado **estratos**.
+
+El MAE es un metodo que permite incorporar la informacion adicional que ofrece la variable estratificadora para obtener estimados de forma mas eficiente (en terminos de precision o de costo) que un MAS.
+
+**Informacion requerida:**
+
+* Listado completo de los elementos de la poblacion
+    * $\mathcal{P} = \{e_1, ..., e_N\}$
+   
+* Membresias a estratos para cada elemento
+    * $e_i \in h_j,\space \forall i = 1,...,N, \space j = 1,...,H$
+    * $h_i \cap h_j = \emptyset,\space i\neq j$

@@ -9,6 +9,5 @@ c - canal
 11010110
 
 1 - status
-101 - note off
+101 - note off (80)
 0110 - channel 7 (6+1)
-

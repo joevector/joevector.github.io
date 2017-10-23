@@ -1,0 +1,14 @@
+Bits:
+12345678
+tmmmcccc
+t - tipo (1: status, 0: data)
+m - tipo de mensaje
+c - canal
+
+"Status byte channel 7 note off" = 86
+11010110
+
+1 - status
+101 - note off
+0110 - channel 7 (6+1)
+
